@@ -13,6 +13,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+            //允許存取權限判斷,如果存取成功就true
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //按按鈕取得資策會資訊顯示在手機上
+    //按鈕1.取得資策會資訊顯示在手機上
     public void test1(View view) {
         StringRequest request = new StringRequest(
                 Request.Method.GET, //1.方法
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         mainApp.queue.add(request);
     }
 
-        //抓取農委會資料印在log紀錄
+        //按鈕2.抓取農委會資料印在log紀錄
     public void test2(View view) {
         String url = "http://data.coa.gov.tw/Service/OpenData/ODwsv/ODwsvTravelFood.aspx"; //url字串網址
 
@@ -112,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         );
         mainApp.queue.add(request);
     }
+
 
     private void parseJSON(String json){
         try{
@@ -181,9 +185,10 @@ public class MainActivity extends AppCompatActivity {
       private class MyInputStreamRequest extends Request<byte[]>{ //要串流所以犯行用byte[]比較方便
           private final Response.Listener<byte[]> listener;
 
-          public MyInputStreamRequest(int method, String url,
-                                      Response.Listener<byte[]> listen,
-                                      @Nullable Response.ErrorListener listener) {
+          public MyInputStreamRequest(int method,  //方法
+                                      String url,  //網址
+                                      Response.Listener<byte[]> listen, //回應範行方式
+                                      @Nullable Response.ErrorListener listener) { //錯誤訊息
               super(method, url, listener);
               this.listener = listen;
           }
@@ -200,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
       }
     //引用我們自己寫好的BradInputStreamRequest方法
     public void test5(View view) {
-        if (!isWriteSDCard) return;
+        if (!isWriteSDCard) return; //如果沒有允許存取
         BradInputStreamRequest request = new BradInputStreamRequest(
                 Request.Method.GET, //使用get方法
                 "https://ezgo.coa.gov.tw/Uploads/opendata/TainmaMain01/APPLY_D/20151007173924.jpg",//url網址
@@ -236,4 +241,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+        //第二頁設計,可以輸入cname,tel,addr更改
+    public void toPage2(View view) {
+        Intent intent = new Intent(this, Page2Activity.class);
+        startActivity(intent);
+    }
 }
