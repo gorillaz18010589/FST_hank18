@@ -4,7 +4,7 @@ package tw.brad.apps.brad18;
 
 //最大寬度,如果不指定就0,0
 //Bitmap.Config.ARGB_8888,//影像要如何做組態解碼
-   //     null //錯誤訊息
+// null //錯誤訊息
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
